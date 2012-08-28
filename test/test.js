@@ -1,7 +1,7 @@
 ﻿var assert = require('assert');
 var sie = require('../sie-reader.js');
 
-assert(sie, 'Failed to require SIE');
+assert.ok(sie, 'Failed to require SIE');
 
 sie.readFile('./test/test.SI', function(err, data){
 	assert.ifError(err);	
