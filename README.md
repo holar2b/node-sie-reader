@@ -130,7 +130,7 @@ Om SIE-filen innehåller nedanstående data så är <code>sieFile.getObjekt("21,
 
 <a name="e"></a>
 ## Exempel
-Följande exempel implementerar en komplett webbtjänst som läser in en SIE-fil (FAKT.SI) och returnerar dess verifikat som JSON-objekt. Dessutom används SIE-objektets metoder för att slå upp kontobeskrivningar i kontoplanen och eventuella objekt ur objektsregistret.
+Följande exempel implementerar en komplett webbtjänst som läser in en SIE-fil (t.ex. FAKT.SI) och returnerar dess verifikat som JSON-objekt. Dessutom används SIE-objektets metoder för att slå upp kontobeskrivningar i kontoplanen och eventuella objekt ur objektsregistret.
 
 ```js
 var express = require('express');
