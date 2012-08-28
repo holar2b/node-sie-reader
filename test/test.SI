@@ -1,0 +1,44 @@
+#FLAGGA 0
+#FORMAT PC8
+#SIETYP 4
+#PROGRAM "Testgen" 0.1
+#GEN 20120808 
+#FNAMN "Testf”retaget"
+#FNR "TestAB"
+#ORGNR 222222-2222
+#ADRESS "" "Gatan 1" "123 45 Staden" +4618123456
+#KPTYP EUBAS97
+#KONTO 1510 Kundfordringar
+#KTYP 1510 T
+#SRU 1510 204
+#KONTO 1930 "Bank, checkr„kningskonto"
+#KTYP 1930 T
+#SRU 1930 200
+#KONTO 2440 Leverant”rsskulder
+#KTYP 2440 S
+#SRU 2440 300
+#DIM 20 "Avdelning"
+#UNDERDIM 21 "Underavdelning" 20
+#OBJEKT 20 "01" "Konsult"
+#OBJEKT 20 "02" "Produkter"
+#OBJEKT 20 "03" "Administration"
+#OBJEKT 21 "0101" "Leverans" 
+#OBJEKT 21 "0102" "Utbildning"
+#OBJEKT 21 "0201" "Produkt A"
+#OBJEKT 21 "0202" "Produkt B"
+#VER A 1 20120105 "Inbetalningsjournal nr 87" 20120105
+{
+   #TRANS 1930 {21 "0101"} 183680.00 20120105 "Faktnr: 1141, Namn: Kund 1"
+   #TRANS 1930 {21 "0101"} 97576.25 20120105 "Faktnr: 1137, Namn: Kund 1"
+   #TRANS 1930 {21 "0102"} 11025.00 20120105 "Faktnr: 1139, Namn: Kund 2"
+   #TRANS 1510 {21 "0102"} -11025.00 20120105 "Faktnr: 1139, Namn: Kund 2"
+   #TRANS 1510 {21 "0101"} -183680.00 20120105 "Faktnr: 1141, Namn: Kund 1"
+   #TRANS 1510 {21 "0101"} -97576.25 20120105 "Faktnr: 1137, Namn: Kund 1"
+}
+#VER A 2 20120113 "Utbetalningsjournal nr 240" 20120113
+{
+   #TRANS 2440 {20 "03"} 1826.00 20120113 "LevFaktnr: 604, Namn: Leverant”r 1"
+   #TRANS 2440 {21 "0101"} 4000.00 20120113 "LevFaktnr: 601, Namn: Leverant”r 2"
+   #TRANS 1930 {21 "0101"} -4000.00 20120113 "LevFaktnr: 601, Namn: Leverant”r 2"
+   #TRANS 1930 {20 "03"} -1826.00 20120113 "LevFaktnr: 604, Namn: Leverant”r 1"
+}
