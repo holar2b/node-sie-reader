@@ -11,7 +11,7 @@ sie.readFile('./test/test.SI', function(err, data){
 	assert.ok(fnamn[0]['företagsnamn'] == 'Testföretaget', '1.2 Failed to convert charset to UTF8');
 	
 	var ver = data.list('ver');
-	assert.ok(data.list('ver').length == 2, '2.1 Failed to list verifications');	
+	assert.ok(ver.length == 2, '2.1 Failed to list verifications');	
 	assert.ok(ver[0].vernr == '1', '2.2 Failed to read verification attributes');	
 	assert.ok(ver[0].poster.length == 6, '2.3 Failed to list verification transactions');	
 	assert.ok(ver[0].poster[2].belopp == '11025.00', '2.4 Failed to read transaction attributes');
