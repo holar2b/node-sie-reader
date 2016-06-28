@@ -1,24 +1,4 @@
-﻿var fs = require('fs');
-var cp437 = require('./cp437.js');
-var sie = {
-	readFile: function(fileName, callback) {
-		fs.readFile(fileName, function(err, original_data){
-			if (!err) {
-				try {
-					callback(null, sie.readBuffer(original_data));			
-				} catch(ex) {
-					callback(ex);
-				}
-			} else {
-				callback(err);
-			}
-		});
-	},
-	readBuffer: function(original_data) {
-		return parser.parse(cp437.convert(original_data).toString());
-	}
-}
-var parser = {
+﻿var parser = {
 	parse: function(sieFileData) {
 		var root = new SieFile();
 		var lines = sieFileData.split(/\r?\n/);
@@ -37,7 +17,7 @@ var parser = {
 		}
 		return root;
 	},
-	_parseLine: function(line) {	
+	_parseLine: function(line) {
 		var tokens = parser._tokenizer(line);
 		var etikett = tokens[0].value.replace(/^#/,'').toLowerCase();
 		var row = {
@@ -59,7 +39,7 @@ var parser = {
 						quoted = consume = (line[i] != '"');
 						if (consume) {
 							tokens[tokens.length-1].value += line[i];
-						} 
+						}
 					}
 				} else {
 					consume = (line[i] != ' ' && line[i] != '\t' && line[i] != '}' );
@@ -103,7 +83,7 @@ var parser = {
 	},
 	_parseArray: function(tokens, start, attrDef) {
 		for (var i=start+1; i < tokens.length; i++) {
-			if (tokens[i].type == parser._Tokens.ENDARRAY) {			
+			if (tokens[i].type == parser._Tokens.ENDARRAY) {
 				tokens[start] = { type: parser._Tokens.ARRAY, value: parser._valuesOnly(tokens.splice(start, i-start).slice(1)) }
 				var a = [];
 				for (var j=0; j<(tokens[start].value.length-attrDef.type.length+1); j += attrDef.type.length) {
@@ -118,7 +98,7 @@ var parser = {
 		}
 	},
 	_addAttr: function(obj, attr, tokens, pos)  {
-		if (pos < tokens.length) { 
+		if (pos < tokens.length) {
 			obj[attr] = tokens[pos].value;
 		}
 	},
@@ -140,8 +120,8 @@ var parser = {
 		"format": [ 'PC8' ],
 		"ftyp": [ 'Företagstyp' ],
 		"gen": [ 'datum', 'sign' ],
-		"ib": [ 'årsnr', 'konto', 'saldo', 'kvantitet' ], 
-		"konto": [ 'kontonr', 'kontonamn' ], 
+		"ib": [ 'årsnr', 'konto', 'saldo', 'kvantitet' ],
+		"konto": [ 'kontonr', 'kontonamn' ],
 		"kptyp": [ 'typ' ],
 		"ktyp": [ 'kontonr', 'kontotyp' ],
 		"objekt": [ 'dimensionsnr', 'objektnr', 'objektnamn' ],
@@ -161,29 +141,29 @@ var parser = {
 		"trans": [ 'kontonr', { name: 'objektlista', type: [ 'dimensionsnr', 'objektnr' ], many: true }, 'belopp', 'transdat', 'transtext', 'kvantitet', 'sign' ],
 		"rtrans": [ 'kontonr', { name: 'objektlista', type: [ 'dimensionsnr', 'objektnr' ], many: true }, 'belopp', 'transdat', 'transtext', 'kvantitet', 'sign' ],
 		"btrans": [ 'kontonr', { name: 'objektlista', type: [ 'dimensionsnr', 'objektnr' ], many: true }, 'belopp', 'transdat', 'transtext', 'kvantitet', 'sign' ],
-		"ub": [ 'årsnr', 'konto', 'saldo', 'kvantitet' ], 
+		"ub": [ 'årsnr', 'konto', 'saldo', 'kvantitet' ],
 		"underdim": [ 'dimensionsnr', 'namn', 'superdimension' ],
 		"valuta": [ 'valutakod' ],
 		"ver": [ 'serie', 'vernr', 'verdatum', 'vertext', 'regdatum', 'sign' ]
 	},
 	Universal: [
-		{ etikett: 'dim', 'dimensionsnr': '1', 'namn': 'Kostnadsställe / resultatenhet'  }, 
+		{ etikett: 'dim', 'dimensionsnr': '1', 'namn': 'Kostnadsställe / resultatenhet'  },
 		{ etikett: 'underdim', 'dimensionsnr': '2', 'namn': 'Kostnadsbärare', 'superdimension': '1' },
-		{ etikett: 'dim', 'dimensionsnr': '6', 'namn': 'Projekt'  }, 
-		{ etikett: 'dim', 'dimensionsnr': '7', 'namn': 'Anställd' }, 
-		{ etikett: 'dim', 'dimensionsnr': '8', 'namn': 'Kund'  }, 
-		{ etikett: 'dim', 'dimensionsnr': '9', 'namn': 'Leverantör' }, 
+		{ etikett: 'dim', 'dimensionsnr': '6', 'namn': 'Projekt'  },
+		{ etikett: 'dim', 'dimensionsnr': '7', 'namn': 'Anställd' },
+		{ etikett: 'dim', 'dimensionsnr': '8', 'namn': 'Kund'  },
+		{ etikett: 'dim', 'dimensionsnr': '9', 'namn': 'Leverantör' },
 		{ etikett: 'dim', 'dimensionsnr': '10', 'namn': 'Faktura'  }
 	],
 	list: function(scan, etikett /* attribute name value pairs */) {
-		var list = [];		
+		var list = [];
 		var fel = etikett.replace(/^#/,'').toLowerCase();
 		for (var i in scan) {
 			if (scan[i].etikett == fel) {
 				var add = true;
 				for (var j=2; j<arguments.length-1; j += 2) {
 					add = (scan[i][arguments[j]] && scan[i][arguments[j]] == arguments[j+1]);
-				}				
+				}
 				if (add) {
 					list[list.length] = scan[i];
 				}
@@ -216,10 +196,10 @@ SieFile.prototype = {
 	},
 	getDimension: function(dimensionsnr) {
 		var scan = this.poster.concat(parser.Universal);
-		var list = parser.list(scan, 'underdim', 'dimensionsnr', dimensionsnr);	
+		var list = parser.list(scan, 'underdim', 'dimensionsnr', dimensionsnr);
 		if (list.length == 0) {
-			list = parser.list(scan, 'dim', 'dimensionsnr', dimensionsnr);	
-		} 
+			list = parser.list(scan, 'dim', 'dimensionsnr', dimensionsnr);
+		}
 		if (list.length > 0) {
 			return list[0];
 		}
@@ -241,14 +221,14 @@ SieFile.prototype = {
 			}
 			return {
 				etikett: 'objekt',
-				'dimensionsnr': olist[0]['dimensionsnr'], 
-				'objektnr': olist[0]['objektnr'], 
+				'dimensionsnr': olist[0]['dimensionsnr'],
+				'objektnr': olist[0]['objektnr'],
 				'objektnamn': olist[0]['objektnamn'],
 				'namn': name
 			};
 		}
 	},
-	list: function(etikett /* attribute name value pairs */) {	
+	list: function(etikett /* attribute name value pairs */) {
 		var args = [];
 		args[args.length] = this.poster;
 		for (var i=0; i<arguments.length; i++) {
@@ -257,4 +237,4 @@ SieFile.prototype = {
 		return parser.list.apply(parser, args);
 	}
 };
-module.exports = sie;
+module.exports = parser;
