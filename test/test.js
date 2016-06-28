@@ -1,5 +1,5 @@
 ﻿var assert = require('assert');
-var sie = require('../sie-reader.js');
+var sie = require('../');
 
 assert.ok(sie, 'Failed to require SIE');
 

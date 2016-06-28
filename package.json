@@ -2,7 +2,8 @@
   "name": "sie-reader",
   "version": "0.1.0",
   "description": "SIE file reader",
-  "main": "sie-reader.js",
+  "main": "index.js",
+  "browser": "browser.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/holar2b/node-sie-reader.git"
